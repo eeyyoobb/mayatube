@@ -2,15 +2,15 @@ import Navigation from "@/components/shared/Navigation/Navigation";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-// import CurrentUserProvider from "@/context/CurrentUserContext";
-// import getCurrentUser from "@/actions/getCurrentUser";
-// import CreateChannelModalProvider from "@/context/CreateChannelModalContext";
-// import CreateChannelModal from "@/components/shared/Modal/CreateChannelModal";
-// import { Toaster } from "react-hot-toast";
-// import getCurrentChannel from "@/actions/getCurrentChannel";
-// import CurrentChannelProvider from "@/context/CurrentChannelContext";
-// import UploadVideoModalProvider from "@/context/UploadVideoModalContext";
-// import SidebarProvider from "@/context/SidebarContext";
+import CurrentUserProvider from "@/context/CurrentUserContext";
+import getCurrentUser from "@/actions/getCurrentUser";
+import CreateChannelModalProvider from "@/context/CreateChannelModalContext";
+import CreateChannelModal from "@/components/shared/Modal/CreateChannelModal";
+import { Toaster } from "react-hot-toast";
+import getCurrentChannel from "@/actions/getCurrentChannel";
+import CurrentChannelProvider from "@/context/CurrentChannelContext";
+import UploadVideoModalProvider from "@/context/UploadVideoModalContext";
+import SidebarProvider from "@/context/SidebarContext";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -27,26 +27,26 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const currentUser = await getCurrentUser();
-  // const currentChannel = await getCurrentChannel();
+   const currentUser = await getCurrentUser();
+   const currentChannel = await getCurrentChannel();
 
   return (
     <html lang="en">
       <body className={roboto.className}>
-        {/* <CreateChannelModalProvider>
+         <CreateChannelModalProvider>
           <Toaster toastOptions={{ position: "bottom-left" }} />
-          <CreateChannelModal />
+           <CreateChannelModal/>
           <CurrentUserProvider user={currentUser}>
-            <CurrentChannelProvider channel={currentChannel}>
+             <CurrentChannelProvider channel={currentChannel}> 
               <UploadVideoModalProvider>
-                <SidebarProvider>*/}
+                <SidebarProvider>
                   <Navigation />
                   <div className="pt-16">{children}</div>
-                 {/*</SidebarProvider>
+                 </SidebarProvider>
               </UploadVideoModalProvider>
-            </CurrentChannelProvider>
+             </CurrentChannelProvider>
           </CurrentUserProvider>
-        </CreateChannelModalProvider> */}
+        </CreateChannelModalProvider> 
       </body>
     </html>
   );

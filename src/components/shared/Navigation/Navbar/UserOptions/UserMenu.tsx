@@ -19,10 +19,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ onClose }) => {
   const currentChannel = useContext(CurrentChannelContext);
 
   const router = useRouter();
-
+  
   return (
     <>
-      <div className="h-screen w-screen fixed z-30" onClick={onClose} />
+      <div className="h-screen w-screen fixed z-30 " onClick={onClose} />
       <div className="absolute rounded-md shadow-md w-72 bg-zinc-800 right-2 top-16 text-sm flex flex-col overflow-hidden z-40">
         <MenuItem
           logo={<PiUserSquareFill className="h-7 w-7 mr-4" />}

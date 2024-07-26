@@ -1,13 +1,13 @@
 import React from "react";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
-// import getCurrentSubscriptions from "@/actions/getCurrentSubscriptions";
+import getCurrentSubscriptions from "@/actions/getCurrentSubscriptions";
 
 const Navigation = async () => {
-  //const subscriptions = await getCurrentSubscriptions();
+  const subscriptions = await getCurrentSubscriptions();
   return (
     <>
-      {/* <Sidebar subscribedChannels={subscriptions} /> */}
+      <Sidebar subscribedChannels={subscriptions} /> 
       <Navbar />
     </>
   );
