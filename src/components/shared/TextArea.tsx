@@ -22,17 +22,17 @@ const TextArea: React.FC<TextAreaProps> = ({
   return (
     <div className="relative">
       <div
-        contentEditable={true}
+        contentEditable={!disabled}
         onInput={(e) => changeValue?.(id, e.currentTarget.innerText || "")}
         id={id}
-        disabled={disabled}
         {...register(id, { required })}
-        placeholder=" "
         className={`peer w-full px-4 pt-8 pb-2 min-h-[100px] rounded-md outline-none border-[1px] bg-stone-950 transition ${
           errors[id]
             ? "border-red-500 focus:border-red-500"
             : "border-zinc-500 focus:border-blue-400"
         } disabled:opacity-70 disabled:cursor-not-allowed`}
+        // Placeholder handled via CSS
+        aria-placeholder={label}
       />
       <label
         htmlFor={id}
