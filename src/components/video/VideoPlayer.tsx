@@ -23,6 +23,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoSrc }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentDuration, setCurrentDuration] = useState("00:00");
   const [percentComplete, setPercentComplete] = useState(0);
+  const [volume, setVolume] = useState(1);
   const [_, setTrigger] = useState(false);
 
   const handleMuted = useCallback(() => {
@@ -119,7 +120,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoSrc }) => {
 
   const totalDuration = useMemo(
     () => formatTimestamp(videoRef.current?.duration || 0),
-    []
+    [formatTimestamp]
   );
 
   const updateTimestamp = () => {
