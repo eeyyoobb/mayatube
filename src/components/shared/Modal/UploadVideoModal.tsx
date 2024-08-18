@@ -2,8 +2,8 @@
 
 import { UploadVideoModalContext } from "@/context/UploadVideoModalContext";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
-import { MdClose, MdUpload } from "react-icons/md";
+import { useContext, useState } from "react";
+import { MdClose, MdUpload, MdLink } from "react-icons/md";
 import MediaUpload from "../MediaUpload";
 import IconButton from "../IconButton";
 import Button from "../Button";
@@ -14,12 +14,21 @@ interface UploadVideoModalProps {
 
 const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ onUpload }) => {
   const router = useRouter();
-
   const uploadVideoModal = useContext(UploadVideoModalContext);
+
+  // State to toggle between uploading a file or adding a link
+  const [uploadOption, setUploadOption] = useState<"file" | "link">("file");
+  const [videoLink, setVideoLink] = useState("");
 
   const handleUpload = (value: string) => {
     onUpload(value);
     uploadVideoModal?.onClose();
+  };
+
+  const handleAddLink = () => {
+    if (videoLink) {
+      handleUpload(videoLink);
+    }
   };
 
   return (
@@ -34,21 +43,57 @@ const UploadVideoModal: React.FC<UploadVideoModalProps> = ({ onUpload }) => {
           }}
         />
       </div>
+      <div className="flex justify-center gap-4 p-4">
+        <Button
+          type="box"
+          onClick={() => setUploadOption("file")}
+          active={uploadOption === "file"}
+        >
+          Upload File
+        </Button>
+        <Button
+          type="box"
+          onClick={() => setUploadOption("link")}
+          active={uploadOption === "link"}
+        >
+          Add Link
+        </Button>
+      </div>
       <div className="flex flex-col gap-4 justify-center items-center h-full">
-        <MediaUpload onChange={handleUpload}>
-          <IconButton className="bg-stone-900">
-            <MdUpload className="h-20 w-20 m-8 text-neutral-400" />
-          </IconButton>
-        </MediaUpload>
-        <div className="flex flex-col items-center">
-          <p>Select files to upload</p>
-          <p className="text-neutral-400 text-sm">
-            Your videos will be private until you publish them.
-          </p>
-        </div>
-        <MediaUpload onChange={handleUpload}>
-          <Button type="box">Select Files</Button>
-        </MediaUpload>
+        {uploadOption === "file" ? (
+          <>
+            <MediaUpload onChange={handleUpload}>
+              <IconButton className="bg-stone-900">
+                <MdUpload className="h-20 w-20 m-8 text-neutral-400" />
+              </IconButton>
+            </MediaUpload>
+            <div className="flex flex-col items-center">
+              <p>Select files to upload</p>
+              <p className="text-neutral-400 text-sm">
+                Your videos will be private until you publish them.
+              </p>
+            </div>
+            <MediaUpload onChange={handleUpload}>
+              <Button type="box">Select Files</Button>
+            </MediaUpload>
+          </>
+        ) : (
+          <>
+            <div className="flex flex-col gap-2 items-center">
+              <MdLink className="h-20 w-20 m-8 text-neutral-400" />
+              <input
+                type="text"
+                value={videoLink}
+                onChange={(e) => setVideoLink(e.target.value)}
+                placeholder="Enter video link"
+                className="p-2 bg-stone-900 rounded-lg w-3/4 text-white"
+              />
+            </div>
+            <Button type="box" onClick={handleAddLink}>
+              Add Link
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );

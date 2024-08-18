@@ -18,8 +18,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "MAYAYTUBE",
-  description: "Broadcast Yourself",
+  title: "Maya-Learn",
+  description: "Learn from each other!",
 };
 
 export default async function RootLayout({
