@@ -1,6 +1,6 @@
 import React from "react";
 import NavigationHeader from "../NavigationHeader";
-import Search from "./Search";
+import Search from "@/Common/Search";
 import UserOptions from "./UserOptions/UserOptions";
 
 const Navbar = () => {

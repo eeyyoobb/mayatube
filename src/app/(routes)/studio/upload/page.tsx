@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/shared/Button";
+import Button from "@/Common/Button";
 import UploadVideoModal from "@/components/shared/Modal/UploadVideoModal";
 import VideoPreview from "@/components/studio/upload/VideoPreview";
 import VideoUploadForm from "@/components/studio/upload/VideoUploadForm";

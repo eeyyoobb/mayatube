@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Button from "./Button";
+import Button from "../../Common/Button";
 
 interface AddLinkProps {
   onChange: (value: string) => void;

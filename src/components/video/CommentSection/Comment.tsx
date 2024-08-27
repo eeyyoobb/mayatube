@@ -1,6 +1,6 @@
 "use client";
 
-import Avatar from "@/components/shared/Avatar";
+import Avatar from "@/Common/Avatar";
 import { Channel, Comment as PrismaComment } from "@prisma/client";
 import dayjs from "@/vendor/dayjs";
 

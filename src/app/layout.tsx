@@ -11,6 +11,9 @@ import getCurrentChannel from "@/actions/getCurrentChannel";
 import CurrentChannelProvider from "@/context/CurrentChannelContext";
 import UploadVideoModalProvider from "@/context/UploadVideoModalContext";
 import SidebarProvider from "@/context/SidebarContext";
+import QuizContextProvider from "@/context/QuizContextProvider";
+import GlobalStyleProvider from "@/context/GlobalStyleProvider";
+import TaskProvider from "@/context/TaskContextProvider"
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -32,21 +35,36 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+      <link rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+      crossOrigin="anonymous" 
+      referrerPolicy="no-referrer" />
+      </head>
       <body className={roboto.className}>
+         
+         <GlobalStyleProvider> 
          <CreateChannelModalProvider>
           <Toaster toastOptions={{ position: "bottom-left" }} />
            <CreateChannelModal/>
-          <CurrentUserProvider user={currentUser}>
+            <CurrentUserProvider user={currentUser}>
              <CurrentChannelProvider channel={currentChannel}> 
-              <UploadVideoModalProvider>
+               <UploadVideoModalProvider>
                 <SidebarProvider>
-                  <Navigation />
-                  <div className="pt-16">{children}</div>
-                 </SidebarProvider>
-              </UploadVideoModalProvider>
+                  <TaskProvider> 
+                    <QuizContextProvider>
+                       <Navigation />
+                        <div className="pt-16">{children}</div>
+                     </QuizContextProvider>
+                    </TaskProvider> 
+                  </SidebarProvider>
+                </UploadVideoModalProvider>
              </CurrentChannelProvider>
           </CurrentUserProvider>
-        </CreateChannelModalProvider> 
+        </CreateChannelModalProvider>
+       </GlobalStyleProvider> 
+       
       </body>
     </html>
   );

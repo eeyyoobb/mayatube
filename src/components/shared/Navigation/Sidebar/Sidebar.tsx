@@ -5,10 +5,10 @@ import { Channel } from "@prisma/client";
 import { useContext } from "react";
 import NavigationHeader from "../NavigationHeader";
 import MenuItem from "../Navbar/UserOptions/MenuItem";
-import { MdOutlineHome, MdOutlineSubscriptions } from "react-icons/md";
+import { MdOutlineHome, MdOutlineSubscriptions,MdOutlineQuiz,MdOutlineWorkOutline } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { CurrentUserContext } from "@/context/CurrentUserContext";
-import Avatar, { AvatarSize } from "../../Avatar";
+import Avatar, { AvatarSize } from "../../../../Common/Avatar";
 
 interface SidebarProps {
   subscribedChannels: Channel[];
@@ -47,6 +47,23 @@ const Sidebar: React.FC<SidebarProps> = ({ subscribedChannels }) => {
             onClick={() => handleItemClick(() => router.push("/"))}
           />
           {currentUser ? (
+          <>
+          <MenuItem
+              label="Quizzes"
+              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/quizzes"))
+              }
+              />
+            <MenuItem
+              label="Tasks"
+              logo={<MdOutlineWorkOutline className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/tasks"))
+              }
+            />
             <MenuItem
               label="Subscriptions"
               logo={<MdOutlineSubscriptions className="h-6 w-6 mr-4" />}
@@ -55,6 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({ subscribedChannels }) => {
                 handleItemClick(() => router.push("/subscriptions"))
               }
             />
+            </>
           ) : null}
         </div>
         {currentUser ? (

@@ -4,7 +4,7 @@ import { CurrentChannelContext } from "@/context/CurrentChannelContext";
 import { useProtectedRoute } from "@/hooks/useProtectedRoute";
 import { Video } from "@prisma/client";
 import { useContext, useMemo } from "react";
-import Avatar, { AvatarSize } from "../shared/Avatar";
+import Avatar, { AvatarSize } from "../../Common/Avatar";
 import AnalyticsSummaryItem from "./AnalyticsSummaryItem";
 import { compactNumberFormat } from "@/utils/numUtils";
 

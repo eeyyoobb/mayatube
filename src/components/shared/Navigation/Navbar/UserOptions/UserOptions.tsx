@@ -3,9 +3,9 @@
 import { useContext, useState } from "react";
 import SignInButton from "./SignInButton";
 import { CurrentUserContext } from "@/context/CurrentUserContext";
-import IconButton from "@/components/shared/IconButton";
+import IconButton from "@/Common/IconButton";
 import { MdOutlineVideoCall } from "react-icons/md";
-import Avatar, { AvatarSize } from "@/components/shared/Avatar";
+import Avatar, { AvatarSize } from "@/Common/Avatar";
 import UserMenu from "./UserMenu";
 import { CurrentChannelContext } from "@/context/CurrentChannelContext";
 import { CreateChannelModalContext } from "@/context/CreateChannelModalContext";

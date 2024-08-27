@@ -23,8 +23,10 @@ model User {
   subscribedChannelIds String[] @db.ObjectId
   likedVideoIds String[] @db.ObjectId
   dislikedVideoIds String[] @db.ObjectId
-  isLogged Boolean
-  expreience String
+  experience Int @default(0)
+  isLogged Boolean @default(false)
+
+  
 
   account Account?
   channel Channel?
@@ -91,38 +93,17 @@ model Comment {
   video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
   channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
 }
-model Quiz {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  icon              String
-  quizTitle         String
-  quizQuestions     Question[] @relation("QuizQuestions")
+model Task{
+  id          String    @id @default(cuid()) @map("_id")
+  title       String
+  description String?
+  link        String
+  isCompleted Boolean   @default(false)
+  isImportant Boolean   @default(false)
 
-  @@map("quizzes") // Optional: Map to a different collection name
-}
-model Question {
-  id                String     @id @default(auto()) @map("_id") @db.ObjectId
-  mainQuestion      String
-  choices           String[]
-  correctAnswer     Int
-  answeredResult    Int        @default(-1)
-  explanation       String?    // Optional string field
-  statistics        Statistics? @relation(fields: [statisticsId], references: [id])
-  statisticsId      String?    @unique @db.ObjectId  // Marked as unique to enforce 1-to-1 relationship
-  quiz              Quiz?      @relation("QuizQuestions", fields: [quizId], references: [id])
-  quizId            String?    @db.ObjectId
-
-  @@map("questions") // Optional: Map to a different collection name
-}
-
-model Statistics {
-  id                String     @id @default(auto()) @map("_id") @db.ObjectId
-  totalAttempts     Int        @default(0)
-  correctAttempts   Int        @default(0)
-  incorrectAttempts Int        @default(0)
-  question          Question?  @relation() // Only reference the Question model
-  questionId        String?    @db.ObjectId
-
-  @@map("statistics") // Optional: Map to a different collection name
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+  userId      String    
 }
 
 

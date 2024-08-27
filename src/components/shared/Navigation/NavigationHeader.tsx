@@ -1,8 +1,8 @@
 "use client";
 
 import { MdMenu } from "react-icons/md";
-import IconButton from "../IconButton";
-import Logo from "../Logo";
+import IconButton from "../../../Common/IconButton";
+import Logo from "../../../Common/Logo";
 import { useContext } from "react";
 import { SidebarContext } from "@/context/SidebarContext";
 

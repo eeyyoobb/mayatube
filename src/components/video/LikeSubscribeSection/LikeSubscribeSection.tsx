@@ -5,9 +5,9 @@ import { Channel, Video } from "@prisma/client";
 import { useContext } from "react";
 import LikeDislikeButton from "./LikeDislikeButton";
 import Link from "next/link";
-import Avatar, { AvatarSize } from "@/components/shared/Avatar";
+import Avatar, { AvatarSize } from "@/Common/Avatar";
 import { compactNumberFormat } from "@/utils/numUtils";
-import Button from "@/components/shared/Button";
+import Button from "@/Common/Button";
 import SubscribeButton from "@/components/shared/SubscribeButton";
 
 interface LikeSubscribeSectionProps {

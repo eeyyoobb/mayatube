@@ -2,9 +2,9 @@
 
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 
-import Avatar, { AvatarSize } from "../Avatar";
-import Button from "../Button";
-import Input from "../Input";
+import Avatar, { AvatarSize } from "../../../Common/Avatar";
+import Button from "../../../Common/Button";
+import Input from "../../../Common/Input";
 import { useContext, useState } from "react";
 import MediaUpload from "../MediaUpload";
 import axios from "axios";

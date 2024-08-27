@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(routes)/quizzes/quiz-start/page.tsx", "src/app/(routes)/quizzes/page.jsx", "src/app/(routes)/quizzes/page.jsx", "src/app/api/quizzes/route.js", "src/components/quiz/QuizzesAa.js", "src/context/QuizProvider.js", "src/components/quiz/QuizCard.js", "src/components/quiz/QuizzesArea.js", "src/app/(routes)/quizzes/layout.jsx"],
   "exclude": ["node_modules"]
 }

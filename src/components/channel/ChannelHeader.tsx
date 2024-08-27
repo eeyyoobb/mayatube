@@ -3,10 +3,10 @@
 import { CurrentUserContext } from "@/context/CurrentUserContext";
 import { Channel } from "@prisma/client";
 import { useContext } from "react";
-import Avatar, { AvatarSize } from "../shared/Avatar";
+import Avatar, { AvatarSize } from "../../Common/Avatar";
 import { compactNumberFormat } from "@/utils/numUtils";
 import Link from "next/link";
-import Button from "../shared/Button";
+import Button from "../../Common/Button";
 import SubscribeButton from "../shared/SubscribeButton";
 
 interface ChannelHeaderProps {

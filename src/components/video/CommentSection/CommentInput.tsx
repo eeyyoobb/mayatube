@@ -1,7 +1,7 @@
 "use client";
 
-import Avatar from "@/components/shared/Avatar";
-import Button from "@/components/shared/Button";
+import Avatar from "@/Common/Avatar";
+import Button from "@/Common/Button";
 import { CurrentChannelContext } from "@/context/CurrentChannelContext";
 import { useComment } from "@/hooks/useComment";
 import { useContext } from "react";

@@ -1,6 +1,6 @@
 "use client";
 
-import IconButton from "@/components/shared/IconButton";
+import IconButton from "@/Common/IconButton";
 import { useEffect, useState } from "react";
 
 import { MdOutlineContentCopy } from "react-icons/md";

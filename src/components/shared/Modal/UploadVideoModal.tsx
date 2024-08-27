@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { MdClose, MdUpload, MdLink } from "react-icons/md";
 import MediaUpload from "../MediaUpload";
-import IconButton from "../IconButton";
-import Button from "../Button";
+import IconButton from "../../../Common/IconButton";
+import Button from "../../../Common/Button";
 
 interface UploadVideoModalProps {
   onUpload: (value: string) => void;
