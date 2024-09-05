@@ -71,27 +71,32 @@ export async function GET(req: Request) {
   }
 }
 
-// export async function PUT(req: Request) {
-//   try {
-//     const { userId } = auth();
-//     const { isCompleted, id } = await req.json();
+export async function PUT(req: Request) {
+  try {
+    const currentUser = await getCurrentUser();
 
-//     if (!userId) {
-//       return NextResponse.json({ error: "Unauthorized", status: 401 });
-//     }
+    if (!currentUser) {
+      return NextResponse.error();
+    }
 
-//     const task = await prisma.task.update({
-//       where: {
-//         id,
-//       },
-//       data: {
-//         isCompleted,
-//       },
-//     });
+    const { id, isCompleted } = await req.json();
 
-//     return NextResponse.json(task);
-//   } catch (error) {
-//     console.log("ERROR UPDATING TASK: ", error);
-//     return NextResponse.json({ error: "Error deleting task", status: 500 });
-//   }
-// }
+    if (!id || typeof isCompleted !== 'boolean') {
+      return NextResponse.json({ error: "Invalid input", status: 400 });
+    }
+
+    const task = await prisma.task.update({
+      where: {
+        id: id,  // Use the task id
+      },
+      data: {
+        isCompleted: isCompleted,  // Update the completion status
+      },
+    });
+
+    return NextResponse.json(task);
+  } catch (error) {
+    console.log("ERROR UPDATING TASK: ", error);
+    return NextResponse.json({ error: "Error updating task", status: 500 });
+  }
+}

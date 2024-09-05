@@ -7,10 +7,13 @@ import toast from 'react-hot-toast';
 import themes from '@/Common/themes';
 import { CurrentUserContext } from './CurrentUserContext';
 
+
 const QuizContext = createContext();
 
 export function QuizContextProvider({ children }) {
   const [allQuizzes, setAllQuizzes] = useState([]);
+  const [customQuizzes, setCustomQuizzes] = useState([]);
+
   const [selectQuizToStart, setSelectQuizToStart] = useState(null);
   const currentUser =useContext(CurrentUserContext)
   const [user, setUser] = useState({});
@@ -23,6 +26,8 @@ export function QuizContextProvider({ children }) {
   const [isLoading, setLoading] = useState(true);
 
   const [userXP, setUserXP] = useState(0);
+
+  const [numberOfQuestions, setNumberOfQuestions] = useState(10);
 
   const [selectedTheme, setSelectedTheme] = useState(0);
   const theme = themes[selectedTheme];
@@ -56,49 +61,101 @@ export function QuizContextProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchCustomQuizzes = async () => {
       try {
-        const response = await fetch('/api/user', {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: 'quizUser',
-            isLogged: false,
-            experience: 0,
-          }),
+        setLoading(true);
+        const response = await fetch('/api/quizzes/custom', {
+          cache: 'no-cache',
         });
 
         if (!response.ok) {
-          toast.error('Something went wrong...');
+          toast.error('fetching went wrong...');
           throw new Error('fetching failed...');
         }
 
-        const userData = await response.json();
-        console.log(userData);
+        const quizzesData = await response.json();
 
-        if (userData.message === 'User already exists') {
-          // If user already exists, update the user state with the returned user
-          setUser(userData.user);
-        } else {
-          // If user doesn't exist, set the newly created user state
-          setUser(userData.user);
-        }
+        setCustomQuizzes(quizzesData.quizzes);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchUser();
+
+    // Fetch the user
+
+    fetchCustomQuizzes();
   }, []);
+   console.log(customQuizzes)
+
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const response = await fetch('/api/user', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-type': 'application/json',
+  //         },
+  //         body: JSON.stringify({
+  //           name: 'quizUser',
+  //           isLogged: false,
+  //           experience: 0,
+  //         }),
+  //       });
+
+  //       if (!response.ok) {
+  //         toast.error('Something went wrong...');
+  //         throw new Error('fetching failed...');
+  //       }
+
+  //       const userData = await response.json();
+  //       console.log(userData);
+
+  //       if (userData.message === 'User already exists') {
+  //         // If user already exists, update the user state with the returned user
+  //         setUser(userData.user);
+  //       } else {
+  //         // If user doesn't exist, set the newly created user state
+  //         setUser(userData.user);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
 
-  useEffect(() => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      experience: userXP,
-    }));
-  }, [userXP]);
+  // useEffect(() => {
+  //   setUser((prevUser) => ({
+  //     ...prevUser,
+  //     experience: userXP,
+  //   }));
+  // }, [userXP]);
+   
+  // async function createQuiz() {
+  //   const response = await fetch('/api/quiz', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       question: "Sample Question?",
+  //       choices: ["Option 1", "Option 2", "Option 3", "Option 4"],
+  //       correctAnswer: "Option 1",
+  //       category: "General Knowledge",
+  //       difficulty: "Easy",
+  //       type: "Multiple Choice",
+  //       status: "Active",
+  //       score: 0,
+  //     }),
+  //   });
+  
+  //   const result = await response.json();
+  //   console.log(result);
+  // }
+  
 
   useEffect(() => {
     if (selectedQuiz) {
@@ -114,6 +171,8 @@ export function QuizContextProvider({ children }) {
         theme,
         allQuizzes,
         setAllQuizzes,
+        customQuizzes,
+        setCustomQuizzes,
         quizToStartObject: { selectQuizToStart, setSelectQuizToStart },
         userObject: { user, setUser },
         openBoxToggle: { openIconBox, setOpenIconBox },
@@ -123,6 +182,7 @@ export function QuizContextProvider({ children }) {
         selectedQuizObject: { selectedQuiz, setSelectedQuiz },
         userXpObject: { userXP, setUserXP },
         isLoadingObject: { isLoading, setLoading },
+        numberOfQuestions:{ numberOfQuestions, setNumberOfQuestions }
       }}
     >
       {children}

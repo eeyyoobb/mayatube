@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useState, useContext } from "react";
 import themes from "../Common/themes";
-import axios from "axios";
+import axios, { all } from "axios";
 import toast from "react-hot-toast";
 import { CurrentUserContext } from "@/context/CurrentUserContext";
 
@@ -51,34 +51,33 @@ export const GlobalTaskProvider = ({ children }) => {
     }
   };
 
-  // const deleteTask = async (id) => {
-  //   try {
-  //     const res = await axios.delete(`/api/tasks/${id}`);
-  //     toast.success("Task deleted");
+  const deleteTask = async (id) => {
+    try {
+      const res = await axios.delete(`/api/tasks/${id}`);
+      toast.success("Task deleted");
 
-  //     allTasks();
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Something went wrong");
-  //   }
-  // };
+      allTasks();
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
 
-  // const updateTask = async (task) => {
-  //   try {
-  //     const res = await axios.put(`/api/tasks`, task);
+  const updateTask = async (task) => {
+    try {
+      const res = await axios.put(`/api/tasks`, task);
 
-  //     toast.success("Task updated");
+      toast.success("Task updated");
 
-  //     allTasks();
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Something went wrong");
-  //   }
-  // };
-
-  //const completedTasks = tasks.filter((task) => task.isCompleted === true);
-  //const importantTasks = tasks.filter((task) => task.isImportant === true);
-  //const incompleteTasks = tasks.filter((task) => task.isCompleted === false);
+      allTasks();
+    } catch (error) {
+      console.log(error);
+      toast.error("Updating went wrong");
+    }
+  };
+  const completedTasks = tasks.filter((task) => task.isCompleted === true);
+  const importantTasks = tasks.filter((task) => task.isImportant === true);
+  const incompleteTasks = tasks.filter((task) => task.isCompleted === false);
 
   React.useEffect(() => {
     if (user) allTasks();
@@ -89,18 +88,18 @@ export const GlobalTaskProvider = ({ children }) => {
       value={{
         theme,
         tasks,
-        // deleteTask,
+        deleteTask,
         isLoading,
-        // completedTasks,
-        // importantTasks,
-        // incompleteTasks,
-        // updateTask,
-        // modal,
-        //openModal,
+        completedTasks,
+        importantTasks,
+        incompleteTasks,
+        updateTask,
+        modal,
+        openModal,
         closeModal,
         allTasks,
-        // collapsed,
-        // collapseMenu,
+        collapsed,
+        collapseMenu,
       }}
     >
       <TaskUpdateContext.Provider value={{}}>

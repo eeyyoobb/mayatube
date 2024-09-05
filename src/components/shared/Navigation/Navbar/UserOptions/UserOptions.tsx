@@ -39,7 +39,7 @@ const UserOptions = () => {
           onClick={() => setMenuOpen(true)}
         /> 
       </div>
-     {menuOpen ? <UserMenu onClose={() => setMenuOpen(false)} /> : null} 
+     {menuOpen ? <UserMenu onClose={() => setMenuOpen(false)} /> : null}
     </>
   ) : (
     <SignInButton />

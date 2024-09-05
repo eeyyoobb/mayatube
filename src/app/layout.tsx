@@ -14,6 +14,8 @@ import SidebarProvider from "@/context/SidebarContext";
 import QuizContextProvider from "@/context/QuizContextProvider";
 import GlobalStyleProvider from "@/context/GlobalStyleProvider";
 import TaskProvider from "@/context/TaskContextProvider"
+import { QuizConfigProvider } from '@/context/QuizCustom';
+import NextTopLoader from "nextjs-toploader";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -43,7 +45,11 @@ export default async function RootLayout({
       referrerPolicy="no-referrer" />
       </head>
       <body className={roboto.className}>
-         
+      <NextTopLoader
+            height={2}
+            color="#27AE60"
+            easing="cubic-bezier(0.53,0.21,0,1)"
+          />
          <GlobalStyleProvider> 
          <CreateChannelModalProvider>
           <Toaster toastOptions={{ position: "bottom-left" }} />
@@ -54,9 +60,11 @@ export default async function RootLayout({
                 <SidebarProvider>
                   <TaskProvider> 
                     <QuizContextProvider>
+                      <QuizConfigProvider>
                        <Navigation />
                         <div className="pt-16">{children}</div>
-                     </QuizContextProvider>
+                      </QuizConfigProvider>
+                    </QuizContextProvider>
                     </TaskProvider> 
                   </SidebarProvider>
                 </UploadVideoModalProvider>

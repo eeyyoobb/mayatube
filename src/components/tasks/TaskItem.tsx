@@ -15,7 +15,7 @@ interface Props {
 }
 
 function TaskItem({ title, description,link, isCompleted, id }: Props) {
-  const { theme, deleteTask, updateTask } = useTaskState();
+  const {theme, deleteTask, updateTask} = useTaskState();
   return (
     <TaskItemStyled theme={theme}>
       <h1>{title}</h1>

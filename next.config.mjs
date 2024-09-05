@@ -2,9 +2,25 @@
 const nextConfig = {
   images: {
     domains: ["lh3.googleusercontent.com", "res.cloudinary.com"],
-  },
-  // Ensure this line is removed
-  // output: "export",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
+      },
+      {
+        protocol: "https",
+        hostname: "static.wixstatic.com",
+      },
+      {
+        protocol: "https",
+        hostname: "people.pic1.co",
+      },
+      {
+        protocol: "https",
+        hostname: "app-uploads-cdn.fera.ai",
+      },
+    ],
+  }
 };
 
 export default nextConfig;

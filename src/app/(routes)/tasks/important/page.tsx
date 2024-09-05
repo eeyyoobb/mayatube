@@ -1,28 +1,12 @@
-'use client'
-import React from 'react';
-import Sidebar from '@/components/tasks/sidebar/sidebar';
-import styled from "styled-components";
-import GlobalStyleProvider from "@/context/GlobalStyleProvider";
-import {GlobalProvider} from "@/context/globalProvider"
+"use client";
+"use client";
+import React from "react";
+import { useTaskState } from "@/context/TaskProvider";
+import Tasks from "@/components/tasks/Tasks";
 
-const Page = () => {
-
-  return (
-    <GlobalProvider>
-    <GlobalStyleProvider>
-    <PageStyled>
-       Important
-    </PageStyled>
-    </GlobalStyleProvider>
-    </GlobalProvider>
-  );
+function page() {
+  const { importantTasks } =  useTaskState();
+  return <Tasks title="Important Tasks" tasks={importantTasks} />;
 }
 
-const PageStyled = styled.div`
-  padding: 2.5rem;
-  display: flex;
-  gap:2.5rem;
-  height:100%;
-`;
-
-export default Page;
+export default page;

@@ -19,7 +19,6 @@ const { setSelectedQuiz } = selectedQuizObject;
 
    return (
       <div className="flex flex-col w-full bg-white border border-gray-200 h-svh">
-          <Navbar />
          <QuizzesArea/>
       </div>
    );

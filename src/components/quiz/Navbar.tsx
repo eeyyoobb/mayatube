@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { CurrentUserContext } from "@/context/CurrentUserContext";
 import { useQuizState } from '@/context/QuizProvider';
 import  toast  from 'react-hot-toast';
+import UserMenu from './UserOptions/UserMenu';
 
 interface NavbarProps {}
 
@@ -69,7 +70,7 @@ function Navbar(props: NavbarProps) {
           {currentUser ? (
             <UserDetails>
               <WelcomeText>Welcome: {currentUser.name}</WelcomeText>
-              <XPText>{currentUser.experience}XP</XPText>
+              <XPText><UserMenu/></XPText>
             </UserDetails>
           ) : null}
         </UserInfo>
@@ -152,5 +153,5 @@ const WelcomeText = styled.span``;
 
 const XPText = styled.span`
   font-weight: bold;
-  color: #e07000; /* Tailwind's green-700 */
+  color: #e07000;
 `;

@@ -46,7 +46,39 @@ const Sidebar: React.FC<SidebarProps> = ({ subscribedChannels }) => {
             round
             onClick={() => handleItemClick(() => router.push("/"))}
           />
-          {currentUser ? (
+          <MenuItem
+              label="Blog"
+              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/blog"))
+              }
+              />
+              <MenuItem
+              label="Market"
+              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/market"))
+              }
+              />
+              <MenuItem
+              label="Job Board"
+              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/job"))
+              }
+              />
+              <MenuItem
+              label="Health Center"
+              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/Health"))
+              }
+              />
+           {currentUser ? ( 
           <>
           <MenuItem
               label="Quizzes"
@@ -72,8 +104,16 @@ const Sidebar: React.FC<SidebarProps> = ({ subscribedChannels }) => {
                 handleItemClick(() => router.push("/subscriptions"))
               }
             />
+            <MenuItem
+              label="Store"
+              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/store"))
+              }
+              />
             </>
-          ) : null}
+           ) : null} 
         </div>
         {currentUser ? (
           <div className="pt-3">

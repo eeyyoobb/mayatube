@@ -5,20 +5,19 @@ import styled from "styled-components";
 import { useTaskState } from "@/context/TaskProvider";
 import Image from "next/image";
 
-import menu from "@/utils/taskdb";
+import menu from "@/utils/menuTask";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Button from "@/Common/Button/Button";
 import { arrowLeft, bars, logout } from "@/Common/Icons";
 
 import { CurrentUserContext } from "@/context/CurrentUserContext";
+import { signOut } from 'next-auth/react';
 
 function Sidebar() {
 const { theme,collapsed, collapseMenu}= useTaskState();
 const currentUser = useContext(CurrentUserContext);
-//   const { signOut } = useClerk();
 
-//   const { user } = useUser();
 
 const [firstName] =  currentUser?.name ? currentUser.name.split(" "):[""];
 const avatarUrl = currentUser?.image || "/default-avatar.png";
@@ -29,6 +28,13 @@ const pathname = usePathname();
   const handleClick = (link: string) => {
     router.push(link);
  };
+
+ const handleSignOut = () => {
+  signOut({
+    callbackUrl: '/signin', 
+  });
+};
+
 
 return <SidebarStyled theme={theme} collapsed={collapsed}> 
       <button className="toggle-nav" onClick={collapseMenu}>
@@ -42,7 +48,6 @@ return <SidebarStyled theme={theme} collapsed={collapsed}>
           alt={firstName || "User Avatar"}/>
         </div>
          <div className="user-btn absolute z-20 top-0 w-full h-full">
-          {/* <UserButton /> */}
         </div> 
         <h1 className="capitalize">
            {firstName}
@@ -74,9 +79,7 @@ return <SidebarStyled theme={theme} collapsed={collapsed}>
           fw={"500"}
           fs={"1.2rem"}
           icon={logout}
-          click={() => {
-            //signOut(() => router.push("/signin"));
-          }}
+          click={handleSignOut}
         />
       </div> 
     </SidebarStyled>

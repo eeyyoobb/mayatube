@@ -1,16 +1,12 @@
-'use client';
-
+// components/QuizStartQuestions.tsx
 import React, { useEffect, useState } from 'react';
-import {useQuizState} from '@/context/QuizProvider';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useQuizState } from '@/context/QuizProvider';
 import toast, { Toaster } from 'react-hot-toast';
-import convertFromFaToText from '@/Common/convertFromFaToText';
+import ScoreComponent from './score';
 
 function QuizStartQuestions({ onUpdateTime }) {
   const time = 30;
-  const { quizToStartObject, allQuizzes, setAllQuizzes, userObject } =
-    useQuizState();
+  const { quizToStartObject, allQuizzes, setAllQuizzes, userObject } = useQuizState();
   const { selectQuizToStart } = quizToStartObject;
   const { quizQuestions } = selectQuizToStart;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -19,6 +15,7 @@ function QuizStartQuestions({ onUpdateTime }) {
   const [isQuizEnded, setIsQuizEnded] = useState(false);
   const [score, setScore] = useState(0);
   const { user, setUser } = userObject;
+
 
   const [timer, setTimer] = useState(time);
   let interval;
@@ -55,9 +52,9 @@ function QuizStartQuestions({ onUpdateTime }) {
           }),
         },
       );
-      console.log(allQuizzes[indexOfQuizSelected].quizQuestions);
+      console.log("hello",allQuizzes[indexOfQuizSelected].quizQuestions);
       if (!res.ok) {
-        toast.error('Something went wrong while Updating...');
+        toast.error('Something went wrong while saving...');
         return;
       }
     } catch (error) {
@@ -65,6 +62,7 @@ function QuizStartQuestions({ onUpdateTime }) {
     }
   }
 
+  console.log(indexOfQuizSelected);
 
   useEffect(() => {
     startTimer();
@@ -226,7 +224,7 @@ function QuizStartQuestions({ onUpdateTime }) {
 
     try {
       const response = await fetch(
-        `/api/user?id=${userCopy._id}`,
+        `http://localhost:3000/api/user?id=${userCopy._id}`,
         {
           method: 'PUT',
           headers: {
@@ -247,11 +245,11 @@ function QuizStartQuestions({ onUpdateTime }) {
     }
   }
 
+
   return (
-    <div className="relative poppins rounded-sm m-9 w-9/12  ">
+    <div className="relative poppins rounded-sm m-9 w-9/12">
       <Toaster
         toastOptions={{
-          // Define default options
           className: '',
           duration: 1500,
           style: {
@@ -260,8 +258,8 @@ function QuizStartQuestions({ onUpdateTime }) {
         }}
       />
       {/* The Question Part */}
-      <div className="flex   items-center gap-2">
-        <div className="bg-green-700 flex  justify-center items-center rounded-md w-11 h-11 text-white p-3">
+      <div className="flex items-center gap-2">
+        <div className="bg-green-700 flex justify-center items-center rounded-md w-11 h-11 text-white p-3">
           {currentQuestionIndex + 1}
         </div>
         <p>{quizQuestions[currentQuestionIndex].mainQuestion}</p>
@@ -272,9 +270,7 @@ function QuizStartQuestions({ onUpdateTime }) {
           (choice, indexChoice) => (
             <div
               key={indexChoice}
-              onClick={() => {
-                selectChoiceFunction(indexChoice);
-              }}
+              onClick={() => selectChoiceFunction(indexChoice)}
               className={`p-3 ml-11 w-10/12 border border-green-700 rounded-md
                hover:bg-green-700 hover:text-white transition-all select-none ${
                  selectedChoice === indexChoice
@@ -284,16 +280,14 @@ function QuizStartQuestions({ onUpdateTime }) {
             >
               {choice}
             </div>
-          ),
+          )
         )}
       </div>
       {/* Submit Button */}
-      <div className="flex justify-end mt-7  ">
+      <div className="flex justify-end mt-7">
         <button
-          onClick={() => {
-            moveToTheNextQuestion();
-          }}
-          disabled={isQuizEnded ? true : false}
+          onClick={moveToTheNextQuestion}
+          disabled={isQuizEnded}
           className={`p-2 px-5 text-[15px] text-white rounded-md bg-green-700 mr-[70px] ${
             isQuizEnded ? 'opacity-60' : 'opacity-100'
           }`}
@@ -308,8 +302,8 @@ function QuizStartQuestions({ onUpdateTime }) {
             setIndexOfQuizSelected,
             setCurrentQuestionIndex,
             setSelectedChoice,
-            score,
             setScore,
+            score,
           }}
         />
       )}
@@ -318,97 +312,3 @@ function QuizStartQuestions({ onUpdateTime }) {
 }
 
 export default QuizStartQuestions;
-
-function ScoreComponent({ quizStartParentProps }) {
-  const { quizToStartObject, allQuizzes } = useQuizState();
-  const { selectQuizToStart } = quizToStartObject;
-  const numberOfQuestions = selectQuizToStart.quizQuestions.length;
-  const router = useRouter();
-  //
-  const {
-    setIsQuizEnded,
-    setIndexOfQuizSelected,
-    setCurrentQuestionIndex,
-    setSelectedChoice,
-    setScore,
-    score,
-  } = quizStartParentProps;
-
-  function emojiIconScore() {
-    const emojiFaces = [
-      'confused-emoji.png',
-      'happy-emoji.png',
-      'very-happy-emoji.png',
-    ];
-    const result = (score / selectQuizToStart.quizQuestions.length) * 100;
-
-    if (result < 25) {
-      return emojiFaces[0];
-    }
-
-    if (result == 50) {
-      return emojiFaces[1];
-    }
-
-    return emojiFaces[2];
-  }
-
-  console.log(emojiIconScore());
-
-  function tryAgainFunction() {
-    setIsQuizEnded(false);
-    const newQuizIndex = allQuizzes.findIndex(
-      (quiz) => quiz._id === selectQuizToStart._id,
-    );
-    console.log(newQuizIndex);
-    setIndexOfQuizSelected(newQuizIndex);
-    setCurrentQuestionIndex(0);
-    setSelectedChoice(null);
-    setScore(0);
-    console.log(selectQuizToStart);
-  }
-
-  return (
-    <div className=" flex items-center justify-center rounded-md top-[-100px] border border-gray-200 absolute w-full h-[450px] bg-white">
-      {/* Score */}
-      <div className=" flex gap-4 items-center justify-center flex-col">
-        <Image src={`/${emojiIconScore()}`} alt="" width={100} height={100} />
-        <div className="flex gap-1 flex-col">
-          <span className="font-bold text-2xl">Your Score</span>
-          <div className="text-[22px] text-center">
-            {score}/{numberOfQuestions}
-          </div>
-        </div>
-        <button
-          onClick={() => tryAgainFunction()}
-          className="p-2 bg-green-700 rounded-md text-white px-6"
-        >
-          Try Again
-        </button>
-        {/* statistics */}
-        <div className="  w-full flex gap-2 flex-col mt-3">
-          <div className="flex gap-1 items-center justify-center">
-            <Image src="/correct-answer.png" alt="" width={20} height={20} />
-            <span className="text-[14px]">Correct Answers: {score}</span>
-          </div>
-          <div className="flex gap-1 items-center justify-center">
-            <Image src="/incorrect-answer.png" alt="" width={20} height={20} />
-            <span className="text-[14px]">
-              Incorrect Answers:
-              {selectQuizToStart.quizQuestions.length - score}
-            </span>
-          </div>
-        </div>
-        {/* <span>Or</span> */}
-        <span
-          onClick={() => {
-            router.push('/quizzes');
-          }}
-          className="text-green-700 select-none cursor-pointer text-sm mt-8 "
-        >
-          Select Another Quiz
-        </span>
-      </div>
-    </div>
-  );
-}
