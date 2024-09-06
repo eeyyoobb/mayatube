@@ -1,38 +1,52 @@
-'use client';
-import React, { useContext } from 'react';
-import CustomCard from '@/components/quiz/custom/Quiz';
-import PlaceHolder from '@/components/quiz/PlaceHolder';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useQuizState } from '@/context/QuizProvider';
-import { CurrentUserContext } from "@/context/CurrentUserContext";
 
-function QuizCustom() {
-  const { customQuizzes } = useQuizState();
-  console.log("cus",customQuizzes);
+const QuizPage = () => {
+  const router = useRouter();
+  const { numQuestions } = router.query;
+  const { filteredQuizzes } = useQuizState();
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  const currentUser = useContext(CurrentUserContext);
+  if (!filteredQuizzes.length) return <p>No quizzes available.</p>;
 
-  // Corrected mapping of quizData
-  const quizData = customQuizzes?.map((quiz: any) => ({
-    question: quiz.question,
-    answers: quiz.choices,
-    correctAnswer: quiz.correctAnswer,
-   
-  })) || [];
+  const currentQuiz = filteredQuizzes[currentQuestionIndex];
+
+  const handleNextQuestion = () => {
+    setCurrentQuestionIndex(index => Math.min(index + 1, filteredQuizzes.length - 1));
+  };
+
+  const handlePreviousQuestion = () => {
+    setCurrentQuestionIndex(index => Math.max(index - 1, 0));
+  };
 
   return (
-    <>
-      <div className="poppins mx-12 mt-10"> 
-        {quizData.length === 0 ? (
-          <PlaceHolder />
-        ) : (
-          <div> 
-            <h2 className="text-xl font-bold">My Quizzes</h2>
-            <CustomCard allQuiz={quizData} userId={currentUser?.id} />
-          </div> 
-        )}
-      </div> 
-    </>
+    <section className="flex flex-col items-center my-10">
+      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+        Quiz
+      </h1>
+      <div className="p-10 my-10 rounded-lg shadow-xl w-[65%]">
+        <h2 className="text-xl font-bold">{currentQuiz.question}</h2>
+        {/* Render choices and handle user selection here */}
+        <div className="flex justify-between mt-6">
+          <button 
+            className="bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary/80"
+            onClick={handlePreviousQuestion}
+            disabled={currentQuestionIndex === 0}
+          >
+            Previous
+          </button>
+          <button 
+            className="bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary/80"
+            onClick={handleNextQuestion}
+            disabled={currentQuestionIndex >= filteredQuizzes.length - 1}
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </section>
   );
-}
+};
 
-export default QuizCustom;
+export default QuizPage;

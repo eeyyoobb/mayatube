@@ -18,10 +18,14 @@ function successRate(singleQuiz) {
   let totalAttemptes = 0;
   let successRate = 0;
 
-  singleQuiz.quizQuestions.forEach((question) => {
-    totalAttemptes += question.statistics.totalAttempts;
-    correctQuestions += question.statistics.correctAttempts;
-  });
+ singleQuiz.quizQuestions.forEach((question) => {
+  const stats = question.statistics; // Directly access the statistics object
+  if (stats) {
+    totalAttemptes += stats.totalAttempts;
+    correctQuestions += stats.correctAttempts;
+  }
+});
+
 
   if (totalAttemptes===0) {
      return "0";

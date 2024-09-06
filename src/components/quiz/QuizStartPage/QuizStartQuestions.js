@@ -41,7 +41,7 @@ function QuizStartQuestions({ onUpdateTime }) {
       const id = selectQuizToStart._id;
       // Get the _id of the quiz
       const res = await fetch(
-        `/api/quizzes?id=${id}`, // Include the id as a query parameter
+        `/api/quiz?id=${id}`, // Include the id as a query parameter
         {
           method: 'PUT',
           headers: {
@@ -52,7 +52,6 @@ function QuizStartQuestions({ onUpdateTime }) {
           }),
         },
       );
-      console.log("hello",allQuizzes[indexOfQuizSelected].quizQuestions);
       if (!res.ok) {
         toast.error('Something went wrong while saving...');
         return;
@@ -192,7 +191,7 @@ function QuizStartQuestions({ onUpdateTime }) {
     setScore((prevState) => prevState + 1);
 
     toast.success('Awesome!');
-    addExperience();
+    // addExperience();
 
     // This will stop the timer and end the quiz when currentQuestionIndex is the last
     // and only if we select the correct otherwise the timer is still running
@@ -217,33 +216,33 @@ function QuizStartQuestions({ onUpdateTime }) {
     }, 2000);
   }
 
-  async function addExperience() {
-    const userCopy = user;
-    console.log(userCopy);
-    userCopy.experience += 1;
+  // async function addExperience() {
+  //   const userCopy = user;
+  //   console.log(userCopy);
+  //   userCopy.experience += 1;
 
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/user?id=${userCopy._id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify({ updateUser: userCopy }),
-        },
-      );
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:3000/api/user?id=${userCopy._id}`,
+  //       {
+  //         method: 'PUT',
+  //         headers: {
+  //           'Content-type': 'application/json',
+  //         },
+  //         body: JSON.stringify({ updateUser: userCopy }),
+  //       },
+  //     );
 
-      if (!response.ok) {
-        toast.error('Something went wrong...');
-        throw new Error('fetching failed...');
-      }
+  //     if (!response.ok) {
+  //       toast.error('Something went wrong...');
+  //       throw new Error('fetching failed...');
+  //     }
 
-      setUser(userCopy);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //     setUser(userCopy);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
 
   return (

@@ -12,8 +12,8 @@ const QuizContext = createContext();
 
 export function QuizContextProvider({ children }) {
   const [allQuizzes, setAllQuizzes] = useState([]);
-  const [customQuizzes, setCustomQuizzes] = useState([]);
-
+  const [eachQuizzes, setEachQuizzes] = useState([]);
+   console.log(eachQuizzes)
   const [selectQuizToStart, setSelectQuizToStart] = useState(null);
   const currentUser =useContext(CurrentUserContext)
   const [user, setUser] = useState({});
@@ -32,11 +32,50 @@ export function QuizContextProvider({ children }) {
   const [selectedTheme, setSelectedTheme] = useState(0);
   const theme = themes[selectedTheme];
 
+  const initializeStatistics = (quizQuestions) => {
+    return quizQuestions.map(question => ({
+      ...question,
+      statistics: {
+        totalAttempts: question.statistics?.totalAttempts || 0,
+        incorrectAttempts: question.statistics?.incorrectAttempts || 0,
+        correctAttempts: question.statistics?.correctAttempts || 0,
+      },
+    }));
+  };
+  
+  // Usage example in your fetch or state initialization
+  const fetchAllQuizzes = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/quiz', {
+        cache: 'no-cache',
+      });
+  
+      if (!response.ok) {
+        toast.error('fetching went wrong...');
+        throw new Error('fetching failed...');
+      }
+  
+      const quizzesData = await response.json();
+      const initializedQuizzes = quizzesData.quizzes.map(quiz => ({
+        ...quiz,
+        quizQuestions: initializeStatistics(quiz.quizQuestions),
+      }));
+  
+      setAllQuizzes(initializedQuizzes);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
   useEffect(() => {
     const fetchAllQuizzes = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/quizzes', {
+        const response = await fetch('/api/quiz', {
           cache: 'no-cache',
         });
 
@@ -55,107 +94,17 @@ export function QuizContextProvider({ children }) {
       }
     };
 
-    // Fetch the user
-
     fetchAllQuizzes();
   }, []);
 
   useEffect(() => {
-    const fetchCustomQuizzes = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/quizzes/custom', {
-          cache: 'no-cache',
-        });
-
-        if (!response.ok) {
-          toast.error('fetching went wrong...');
-          throw new Error('fetching failed...');
-        }
-
-        const quizzesData = await response.json();
-
-        setCustomQuizzes(quizzesData.quizzes);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    // Fetch the user
-
-    fetchCustomQuizzes();
-  }, []);
-   console.log(customQuizzes)
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       const response = await fetch('/api/user', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-type': 'application/json',
-  //         },
-  //         body: JSON.stringify({
-  //           name: 'quizUser',
-  //           isLogged: false,
-  //           experience: 0,
-  //         }),
-  //       });
-
-  //       if (!response.ok) {
-  //         toast.error('Something went wrong...');
-  //         throw new Error('fetching failed...');
-  //       }
-
-  //       const userData = await response.json();
-  //       console.log(userData);
-
-  //       if (userData.message === 'User already exists') {
-  //         // If user already exists, update the user state with the returned user
-  //         setUser(userData.user);
-  //       } else {
-  //         // If user doesn't exist, set the newly created user state
-  //         setUser(userData.user);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchUser();
-  // }, []);
-
-
-  // useEffect(() => {
-  //   setUser((prevUser) => ({
-  //     ...prevUser,
-  //     experience: userXP,
-  //   }));
-  // }, [userXP]);
-   
-  // async function createQuiz() {
-  //   const response = await fetch('/api/quiz', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       question: "Sample Question?",
-  //       choices: ["Option 1", "Option 2", "Option 3", "Option 4"],
-  //       correctAnswer: "Option 1",
-  //       category: "General Knowledge",
-  //       difficulty: "Easy",
-  //       type: "Multiple Choice",
-  //       status: "Active",
-  //       score: 0,
-  //     }),
-  //   });
+    if (allQuizzes.length > 0) {
+      const questions = allQuizzes.flatMap(quiz => quiz.quizQuestions);
+      setEachQuizzes(questions);
+    }
+  }, [allQuizzes]);
   
-  //   const result = await response.json();
-  //   console.log(result);
-  // }
-  
+
 
   useEffect(() => {
     if (selectedQuiz) {
@@ -171,8 +120,8 @@ export function QuizContextProvider({ children }) {
         theme,
         allQuizzes,
         setAllQuizzes,
-        customQuizzes,
-        setCustomQuizzes,
+        eachQuizzes,
+        setEachQuizzes,
         quizToStartObject: { selectQuizToStart, setSelectQuizToStart },
         userObject: { user, setUser },
         openBoxToggle: { openIconBox, setOpenIconBox },

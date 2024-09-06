@@ -21,7 +21,6 @@ model User {
   likedVideoIds String[] @db.ObjectId
   dislikedVideoIds String[] @db.ObjectId
   quizResults QuizResult[]
-  quizConfigs QuizConfig[] // Relation to QuizConfig
 
   account Account?
   channel Channel?
@@ -103,18 +102,6 @@ model Task {
   key Int?
 }
 
-model Quiz {
-  id              String   @id @default(cuid()) @map("_id")
-  question        String
-  choices         String[]
-  correctAnswer   String
-  catagory        String?
-  difficulty      String?
-  type            String?
-  status          String?
-  score           Int?
-}
-
 model QuizResult {
   id             String   @id @default(cuid()) @map("_id")
   quizScore      Int
@@ -126,17 +113,36 @@ model QuizResult {
   userId  String  @db.ObjectId
 }
 
-// New QuizConfig model
-
-model QuizConfig {
-  id             String   @id @default(cuid()) @map("_id")
-  numberOfQuestion Int
-  categoryId     Int
-  categoryName   String
-  level          String
-  type           String
-  createdAt      DateTime @default(now())
-
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId         String   @db.ObjectId
+model Quiz {
+  id            String     @id @default(cuid()) @map("_id")
+  quizTitle     String
+  icon          String
+  quizQuestions Question[] 
 }
+
+model Question {
+  id             String     @id @default(cuid()) @map("_id")
+  mainQuestion   String
+  choices        String[]
+  correctAnswer  Int
+  answeredResult Int
+  statisticsId   String     @unique
+  quizId         String
+  category       String?
+  difficulty     String?
+
+  quiz           Quiz       @relation(fields: [quizId], references: [id])
+  statistics     Statistics ?
+}
+
+
+model Statistics {
+  id                 String     @id @default(cuid()) @map("_id")
+  totalAttempts      Int   @default(0)
+  correctAttempts    Int   @default(0)
+  incorrectAttempts  Int   @default(0)
+  question           Question @relation(fields: [questionId], references: [id])
+  questionId         String    @unique
+}
+
+
