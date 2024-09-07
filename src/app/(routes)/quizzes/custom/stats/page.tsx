@@ -1,4 +1,4 @@
-import StatCard from "@/components/quiz/custom/StatCard";
+import StatCard from "@/components/quiz/ui/StatCard";
 import getCurrentUser from "@/actions/getCurrentUser";
 import prisma from "@/vendor/db";
 

@@ -8,18 +8,27 @@ import themes from '@/Common/themes';
 import { CurrentUserContext } from './CurrentUserContext';
 
 
+const defaultCustom = {
+  numberOfQuestion: 10,
+  category: { id: 0, name: '' },
+  level: '',
+  type: '',
+  status: '',
+  score: 0
+};
+
 const QuizContext = createContext();
 
 export function QuizContextProvider({ children }) {
   const [allQuizzes, setAllQuizzes] = useState([]);
   const [eachQuizzes, setEachQuizzes] = useState([]);
-   console.log(eachQuizzes)
   const [selectQuizToStart, setSelectQuizToStart] = useState(null);
   const currentUser =useContext(CurrentUserContext)
   const [user, setUser] = useState({});
   const [openIconBox, setOpenIconBox] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [selectedIcon, setSelectedIcon] = useState({ faIcon: faQuestion });
+  console.log(eachQuizzes)
 
   const [dropDownToggle, setDropDownToggle] = useState(false);
   const [threeDotsPositions, setThreeDotsPositions] = useState({ x: 0, y: 0 });
@@ -27,7 +36,22 @@ export function QuizContextProvider({ children }) {
 
   const [userXP, setUserXP] = useState(0);
 
-  const [numberOfQuestions, setNumberOfQuestions] = useState(10);
+  const [numberOfQuestion, setNumberOfQuestion] = useState(defaultCustom.numberOfQuestion);
+  const [category, setCategory] = useState(defaultCustom.category);
+  const [level, setLevel] = useState(defaultCustom.level);
+  const [type, setType] = useState(defaultCustom.type);
+  const [status, setStatus] = useState(defaultCustom.status);
+  const [score, setScore] = useState(defaultCustom.score);
+  const incrementScore = () => setScore(prevScore => prevScore + 1);
+  const resetCustom = () => {
+    setNumberOfQuestion(defaultCustom.numberOfQuestion);
+    setCategory(defaultCustom.category);
+    setLevel(defaultCustom.level);
+    setType(defaultCustom.type);
+    setStatus(defaultCustom.status);
+    setScore(defaultCustom.score);
+  };
+
 
   const [selectedTheme, setSelectedTheme] = useState(0);
   const theme = themes[selectedTheme];
@@ -100,6 +124,7 @@ export function QuizContextProvider({ children }) {
   useEffect(() => {
     if (allQuizzes.length > 0) {
       const questions = allQuizzes.flatMap(quiz => quiz.quizQuestions);
+      console.log(questions)
       setEachQuizzes(questions);
     }
   }, [allQuizzes]);
@@ -131,7 +156,19 @@ export function QuizContextProvider({ children }) {
         selectedQuizObject: { selectedQuiz, setSelectedQuiz },
         userXpObject: { userXP, setUserXP },
         isLoadingObject: { isLoading, setLoading },
-        numberOfQuestions:{ numberOfQuestions, setNumberOfQuestions }
+        numberOfQuestion,
+        category,
+        level,
+        type,
+        status,
+        score,
+        setNumberOfQuestion,
+        setCategory,
+        setLevel,
+        setType,
+        setStatus,
+        incrementScore,
+        resetCustom
       }}
     >
       {children}

@@ -60,7 +60,7 @@ export default async function RootLayout({
                 <SidebarProvider>
                   <TaskProvider> 
                     <QuizContextProvider>
-                      <QuizConfigProvider>
+                    <QuizConfigProvider>
                        <Navigation />
                         <div className="pt-16">{children}</div>
                       </QuizConfigProvider>

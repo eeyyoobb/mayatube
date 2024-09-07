@@ -1,17 +1,18 @@
 "use client";
 import { useState, useEffect } from "react";
-import StatCard from "../ui/StatCard";
+import StatCard from "@/components/quiz/ui/StatCard";
 
 interface QuizProps {
-  allQuiz: {
+  eachQuizzes: {
     question: string;
     answers: string[];
     correctAnswer: string;
+
   }[];
   userId: string | undefined;
 }
 
-const CustomCard = ({ allQuiz, userId }: QuizProps) => {
+const CustomCard = ({ eachQuizzes,userId,settype,setLevel }: QuizProps) => {
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [checked, setChecked] = useState(false);
@@ -26,7 +27,7 @@ const CustomCard = ({ allQuiz, userId }: QuizProps) => {
   const [timeRemaining, setTimeRemaining] = useState(25);
   const [timerRunning, setTimerRunning] = useState(false);
   const { question, answers, correctAnswer } =
-     allQuiz[activeQuestion];
+   eachQuizzes[activeQuestion];
 
   useEffect(() => {
     let timer: NodeJS.Timeout;

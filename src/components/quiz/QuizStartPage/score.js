@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useQuizState } from '@/context/QuizProvider';
 
 function ScoreComponent({ quizStartParentProps }) {
+  console.log(quizStartParentProps)
   const { quizToStartObject, allQuizzes } = useQuizState();
   const { selectQuizToStart } = quizToStartObject;
   const numberOfQuestions = selectQuizToStart.quizQuestions.length;

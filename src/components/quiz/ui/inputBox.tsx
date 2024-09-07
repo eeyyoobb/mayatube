@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
 import React from 'react';
 import { useQuizState } from '@/context/QuizProvider';
 
 export default function InputBox() {
-  const { setNumberOfQuestions } = useQuizState();
+  const { numberofQuestions, setNumberOfQuestions } = useQuizState();
 
-  const handleChange = async (e: React.FormEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.currentTarget.value ?? '10', 10);
     setNumberOfQuestions(value);
   };

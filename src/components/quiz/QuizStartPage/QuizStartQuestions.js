@@ -134,8 +134,6 @@ function QuizStartQuestions({ onUpdateTime }) {
   }
 
   function moveToTheNextQuestion() {
-    // Check if the we did select the an answer by using the answerResult proprety if
-    //it's still equal to -1
     if (
       allQuizzes[indexOfQuizSelected].quizQuestions[currentQuestionIndex]
         .answeredResult === -1
@@ -144,9 +142,7 @@ function QuizStartQuestions({ onUpdateTime }) {
       return;
     }
 
-    // Update the statistics of the question
-    // ======================================
-    // update the total Attemptes:
+  //--------------------------------------
     allQuizzes[indexOfQuizSelected].quizQuestions[
       currentQuestionIndex
     ].statistics.totalAttempts += 1;
@@ -215,34 +211,6 @@ function QuizStartQuestions({ onUpdateTime }) {
       setSelectedChoice(null);
     }, 2000);
   }
-
-  // async function addExperience() {
-  //   const userCopy = user;
-  //   console.log(userCopy);
-  //   userCopy.experience += 1;
-
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:3000/api/user?id=${userCopy._id}`,
-  //       {
-  //         method: 'PUT',
-  //         headers: {
-  //           'Content-type': 'application/json',
-  //         },
-  //         body: JSON.stringify({ updateUser: userCopy }),
-  //       },
-  //     );
-
-  //     if (!response.ok) {
-  //       toast.error('Something went wrong...');
-  //       throw new Error('fetching failed...');
-  //     }
-
-  //     setUser(userCopy);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
 
   return (

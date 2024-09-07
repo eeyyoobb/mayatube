@@ -37,7 +37,7 @@ function QuizBuildNav({ newQuiz, setNewQuiz }) {
         icon: textIcon,
       };
 
-      const res = await fetch('/api/quizzes', {
+      const res = await fetch('/api/quiz', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -85,7 +85,7 @@ function QuizBuildNav({ newQuiz, setNewQuiz }) {
         updatedQuiz[findIndexQuiz] = { ...newQuiz, icon: textIcon };
 
         try {
-          const res = await fetch(`/api/quizzes?id=${newQuiz._id}`, {
+          const res = await fetch(`/api/quiz?id=${newQuiz._id}`, {
             method: 'PUT',
             headers: {
               'Content-type': 'application/json',

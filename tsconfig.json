@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(routes)/quizzes/quiz-start/page.tsx", "src/app/(routes)/quizzes/page.jsx", "src/app/(routes)/quizzes/page.jsx", "src/app/api/quizzes/route.js", "src/components/quiz/QuizzesAa.js", "src/context/QuizProvider.js", "src/components/quiz/QuizCard.js", "src/components/quiz/QuizzesArea.js", "src/app/(routes)/quizzes/layout.jsx", "src/components/quiz/QuizCustom.js", "src/app/(routes)/quizzes/custom/page.js", "src/app/(routes)/quizzes/custom/page.jsx", "src/context/MarketProvider.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(routes)/quizzes/quiz-start/page.tsx", "src/app/(routes)/quizzes/page.jsx", "src/app/(routes)/quizzes/page.jsx", "src/app/api/quizzes/route.js", "src/components/quiz/QuizzesAa.js", "src/context/QuizProvider.js", "src/components/quiz/QuizCard.js", "src/components/quiz/QuizzesArea.js", "src/app/(routes)/quizzes/layout.jsx", "src/components/quiz/QuizCustom.js", "src/app/(routes)/quizzes/custom/page.js", "src/app/(routes)/quizzes/custom/page.jsx", "src/context/MarketProvider.js", "src/app/(routes)/quizzes/custom/quiz/page.tsx", "src/components/quiz/custom/Hero.jsx"],
   "exclude": ["node_modules"]
 }
