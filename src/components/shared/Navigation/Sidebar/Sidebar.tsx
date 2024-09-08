@@ -5,7 +5,7 @@ import { Channel } from "@prisma/client";
 import { useContext } from "react";
 import NavigationHeader from "../NavigationHeader";
 import MenuItem from "../Navbar/UserOptions/MenuItem";
-import { MdOutlineHome, MdOutlineSubscriptions,MdOutlineQuiz,MdOutlineWorkOutline } from "react-icons/md";
+import { MdOutlineHome, MdOutlineSubscriptions,MdOutlineQuiz,MdOutlineWorkOutline,MdOutlinePlayArrow} from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { CurrentUserContext } from "@/context/CurrentUserContext";
 import Avatar, { AvatarSize } from "../../../../Common/Avatar";
@@ -46,40 +46,17 @@ const Sidebar: React.FC<SidebarProps> = ({ subscribedChannels }) => {
             round
             onClick={() => handleItemClick(() => router.push("/"))}
           />
-          <MenuItem
-              label="Blog"
-              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
-              round
-              onClick={() =>
-                handleItemClick(() => router.push("/blog"))
-              }
-              />
-              <MenuItem
-              label="Market"
-              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
-              round
-              onClick={() =>
-                handleItemClick(() => router.push("/market"))
-              }
-              />
-              <MenuItem
-              label="Job Board"
-              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
-              round
-              onClick={() =>
-                handleItemClick(() => router.push("/job"))
-              }
-              />
-              <MenuItem
-              label="Health Center"
-              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
-              round
-              onClick={() =>
-                handleItemClick(() => router.push("/Health"))
-              }
-              />
+          
            {currentUser ? ( 
-          <>
+             <>
+             <MenuItem
+              label="videos"
+              logo={<MdOutlinePlayArrow className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/video"))
+              }
+              />
           <MenuItem
               label="Quizzes"
               logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
@@ -104,12 +81,45 @@ const Sidebar: React.FC<SidebarProps> = ({ subscribedChannels }) => {
                 handleItemClick(() => router.push("/subscriptions"))
               }
             />
+             <div className="h-0.5 bg-gray-300 w-full my-4"></div>
+              <MenuItem
+              label="Blog"
+              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/blog"))
+              }
+              />
             <MenuItem
               label="Store"
               logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
               round
               onClick={() =>
                 handleItemClick(() => router.push("/store"))
+              }
+              />
+               <MenuItem
+              label="Market"
+              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/market"))
+              }
+              />
+              <MenuItem
+              label="Job Board"
+              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/job"))
+              }
+              />
+              <MenuItem
+              label="Health Center"
+              logo={<MdOutlineQuiz className="h-6 w-6 mr-4" />}
+              round
+              onClick={() =>
+                handleItemClick(() => router.push("/Health"))
               }
               />
             </>

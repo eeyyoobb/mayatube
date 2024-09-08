@@ -6,13 +6,11 @@ import { useQuizState } from '@/context/QuizProvider';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import DropDown from './DropDown';
-import QuizCustom from "./QuizCustom"
 import { CurrentUserContext } from "@/context/CurrentUserContext";
 
 function QuizzesArea() {
   const { allQuizzes,eachQuizzes} = useQuizState();
   const currentUser =useContext(CurrentUserContext)
-  const router = useRouter();
 
   return (
     <div className="poppins mx-12 mt-10 flex-wrap">
