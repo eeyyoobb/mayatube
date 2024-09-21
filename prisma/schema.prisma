@@ -15,6 +15,7 @@ model User {
   name String?
   email String? @unique
   emailVerified DateTime?
+  password String
   image String?
   createdAt DateTime @default(now())
   subscribedChannelIds String[] @db.ObjectId
@@ -143,6 +144,32 @@ model Statistics {
   incorrectAttempts  Int   @default(0)
   question           Question @relation(fields: [questionId], references: [id])
   questionId         String    @unique
+}
+
+model Product {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  price Float
+  // Add more fields for products
+}
+
+model Order {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String @db.ObjectId
+  productIds String[] @db.ObjectId
+  createdAt  DateTime @default(now())
+}
+
+model Media {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  fileName String
+  url      String
+}
+
+model ProductFile {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  fileName String
+  productId String @db.ObjectId
 }
 
 

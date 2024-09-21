@@ -1,49 +1,94 @@
-"use client"
-import Link from "next/link";
-import Menu from "./Menu";
-import Image from "next/image";
-import SearchBar from "./SearchBar";
-//import dynamic from "next/dynamic";
-import NavIcons from "./NavIcons";
-import { useMarketState } from "@/context/MarketProvider";
-import React from "react";
+import Link from 'next/link'
+import MaxWidthWrapper from './MaxWidthWrapper'
+import { Icons } from './Icons'
+import NavItems from './NavItems'
+import { buttonVariants } from '@/components/ui/button'
+import Cart from '@/components/market/Cart'
+import { getServerSideUser } from '@/lib/payload-utils'
+import { cookies } from 'next/headers'
+import UserAccountNav from './UserAccountNav'
+import MobileNav from './MobileNav'
 
-//const NavIcons = dynamic(() => import("./NavIcons"), { ssr: false });
-
-const Navbar = () => {
+const Navbar = async () => {
+  const nextCookies = cookies()
+   const { user } = await getServerSideUser(nextCookies)
 
   return (
-    <div className="h-20 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative bg-white">
-      <div className="h-full flex items-center justify-between md:hidden">
-        <Link href="/">
-          <div className="text-2xl tracking-wide">MAYA</div>
-        </Link>
-        <Menu />
-      </div>
-      {/* BIGGER SCREENS */}
-      <div className="hidden md:flex items-center justify-between gap-8 h-full ">
-        {/* LEFT */}
-        <div className="w-1/3 xl:w-1/2 flex items-center gap-12">
-          <Link href="/" className="flex items-center gap-3">
-            <Image src="/market/logo.png" alt="" width={24} height={24} />
-            <div className="text-2xl tracking-wide">MAYA</div>
-          </Link>
-          <div className="hidden xl:flex gap-4">
-          <Link href="/market">Homepage</Link>
-          <Link href="/market/shop">Shop</Link>
-          <Link href="/market/deals">Deals</Link>
-          <Link href="/market/">Contact</Link>
-          <Link href="/market/">Cart(1)</Link>
-          </div>
-        </div>
-        {/* RIGHT */}
-        <div className="w-2/3 xl:w-1/2 flex items-center justify-between gap-8">
-          <SearchBar />
-          <NavIcons /> 
-        </div>
-      </div>
-    </div>
-  );
-};
+    <div className='bg-white sticky z-50 top-0 inset-x-0 h-16'>
+      <header className='relative bg-white'>
+        <MaxWidthWrapper>
+          <div className='border-b border-gray-200'>
+            <div className='flex h-16 items-center'>
+             <MobileNav /> 
 
-export default Navbar;
+              <div className='ml-4 flex lg:ml-0'>
+                <Link href='/'>
+                  <Icons.logo className='h-10 w-10' />
+                </Link>
+              </div>
+
+              <div className='hidden z-50 lg:ml-8 lg:block lg:self-stretch'>
+                <NavItems />
+              </div>
+
+              <div className='ml-auto flex items-center'>
+                <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
+                   {user ? null : ( 
+                    <Link
+                      href='/sign-in'
+                      className={buttonVariants({
+                        variant: 'ghost',
+                      })}>
+                      Sign in
+                    </Link>
+                   )} 
+
+                   {user ? null : ( 
+                    <span
+                      className='h-6 w-px bg-gray-200'
+                      aria-hidden='true'
+                    />
+                   )} 
+
+                   {user ? (
+                    <UserAccountNav user={user} />
+                  ) : ( 
+                    <Link
+                      href='/sign-up'
+                      className={buttonVariants({
+                        variant: 'ghost',
+                      })}>
+                      Create account
+                    </Link>
+                   )} 
+
+                   {user ? ( 
+                    <span
+                      className='h-6 w-px bg-gray-200'
+                      aria-hidden='true'
+                    />
+                   ) : null} 
+
+                   {user ? null : ( 
+                    <div className='flex lg:ml-6'>
+                      <span
+                        className='h-6 w-px bg-gray-200'
+                        aria-hidden='true'
+                      />
+                    </div>
+                   )} 
+
+                  <div className='ml-4 flow-root lg:ml-6'>
+                    <Cart /> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </MaxWidthWrapper>
+      </header>
+    </div>
+  )
+}
+
+export default Navbar

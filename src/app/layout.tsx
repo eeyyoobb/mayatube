@@ -2,11 +2,14 @@ import Navigation from "@/components/shared/Navigation/Navigation";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { cn, constructMetadata } from '@/lib/utils'
+import { Inter } from 'next/font/google'
 import CurrentUserProvider from "@/context/CurrentUserContext";
 import getCurrentUser from "@/actions/getCurrentUser";
 import CreateChannelModalProvider from "@/context/CreateChannelModalContext";
 import CreateChannelModal from "@/components/shared/Modal/CreateChannelModal";
-import { Toaster } from "react-hot-toast";
+//import { Toaster } from "react-hot-toast";
+import { Toaster } from 'sonner';
 import getCurrentChannel from "@/actions/getCurrentChannel";
 import CurrentChannelProvider from "@/context/CurrentChannelContext";
 import UploadVideoModalProvider from "@/context/UploadVideoModalContext";
@@ -16,15 +19,15 @@ import GlobalStyleProvider from "@/context/GlobalStyleProvider";
 import TaskProvider from "@/context/TaskContextProvider"
 import { QuizConfigProvider } from '@/context/QuizCustom';
 import NextTopLoader from "nextjs-toploader";
+import Providers from "@/components/market/Providers";
 
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
-});
+
+const inter = Inter({ subsets: ['latin'] })
+
 
 export const metadata: Metadata = {
-  title: "Maya-Learn",
-  description: "Learn from each other!",
+  title: "All in One",
+  description: "Learn purchase find resources from each other!",
 };
 
 export default async function RootLayout({
@@ -44,15 +47,22 @@ export default async function RootLayout({
       crossOrigin="anonymous" 
       referrerPolicy="no-referrer" />
       </head>
-      <body className={roboto.className}>
+      <body
+        className={cn(
+          'relative h-full font-sans antialiased',
+          inter.className
+        )}>
+        <main className='relative flex flex-col min-h-screen'>
       <NextTopLoader
             height={2}
             color="#27AE60"
             easing="cubic-bezier(0.53,0.21,0,1)"
           />
+          <Providers>
          <GlobalStyleProvider> 
          <CreateChannelModalProvider>
-          <Toaster toastOptions={{ position: "bottom-left" }} />
+          {/* <Toaster toastOptions={{ position: "bottom-left" }} /> */}
+          <Toaster position='top-center' richColors />
            <CreateChannelModal/>
             <CurrentUserProvider user={currentUser}>
              <CurrentChannelProvider channel={currentChannel}> 
@@ -60,10 +70,8 @@ export default async function RootLayout({
                 <SidebarProvider>
                   <TaskProvider> 
                     <QuizContextProvider>
-                    <QuizConfigProvider>
                        <Navigation />
-                        <div className="pt-16">{children}</div>
-                      </QuizConfigProvider>
+                        <div className="pt-16 flex-grow flex-1">{children}</div>
                     </QuizContextProvider>
                     </TaskProvider> 
                   </SidebarProvider>
@@ -71,8 +79,9 @@ export default async function RootLayout({
              </CurrentChannelProvider>
           </CurrentUserProvider>
         </CreateChannelModalProvider>
-       </GlobalStyleProvider> 
-       
+       </GlobalStyleProvider>
+       </Providers>
+       </main>
       </body>
     </html>
   );

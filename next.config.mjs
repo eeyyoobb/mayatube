@@ -19,6 +19,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "app-uploads-cdn.fera.ai",
       },
+      {
+				protocol: "http",
+				hostname: "localhost",
+			},
+			{
+				protocol: "https",
+				hostname: "digitalhippo-production.up.railway.app",
+			},
     ],
   }
 };
